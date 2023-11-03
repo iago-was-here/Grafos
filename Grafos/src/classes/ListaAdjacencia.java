@@ -1,31 +1,40 @@
 package classes;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.List;
 
 import grafos.Aresta;
+import grafos.Grafo;
 import grafos.Vertice;
 
-public class Grafo implements grafos.Grafo {
+public class ListaAdjacencia implements Grafo {
 
-	private LinkedHashMap<String, Object> graph = new LinkedHashMap<String, Object>();
+	private List<Aresta> ListaAdjacencia;
+
+	public ListaAdjacencia() {
+
+	}
 
 	@Override
 	public void adicionarAresta(Vertice origem, Vertice destino) throws Exception {
 		Aresta aresta = new Aresta(origem, destino);
-
-		this.graph.put("Vertice[" + origem + "]", aresta);
+		this.ListaAdjacencia.add(aresta);
 	}
 
 	@Override
 	public void adicionarAresta(Vertice origem, Vertice destino, double peso) throws Exception {
-		// TODO Auto-generated method stub
-
+		Aresta aresta = new Aresta(origem, destino, peso);
+		this.ListaAdjacencia.add(aresta);
 	}
 
 	@Override
 	public boolean existeAresta(Vertice origem, Vertice destino) {
-		// TODO Auto-generated method stub
+		Aresta arestaAux = new Aresta(origem, destino);
+		Boolean existeAresta = this.ListaAdjacencia.contains(arestaAux);
+
+		if (existeAresta) {
+			return true;
+		}
 		return false;
 	}
 
@@ -37,14 +46,15 @@ public class Grafo implements grafos.Grafo {
 
 	@Override
 	public int numeroDeVertices() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.ListaAdjacencia.size();
 	}
 
 	@Override
 	public int numeroDeArestas() {
-		// TODO Auto-generated method stub
-		return 0;
+		int numeroArestas = 0;
+		int tamanhoLista = this.ListaAdjacencia.size();
+
+		return numeroArestas;
 	}
 
 	@Override

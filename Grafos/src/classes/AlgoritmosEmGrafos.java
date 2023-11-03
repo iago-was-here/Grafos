@@ -1,7 +1,6 @@
 package classes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -13,27 +12,33 @@ import tools.FileManager;
 
 public class AlgoritmosEmGrafos implements grafos.AlgoritmosEmGrafos {
 
+	private Grafo grafo;
+
 	@Override
-	public Grafo carregarGrafo(String path, TipoDeRepresentacao representationType) throws Exception {
-		ArrayList<String> fileContent = new ArrayList<String>();
+	public Grafo carregarGrafo(String path, TipoDeRepresentacao tipoRepresentacao) {
+		ArrayList<String> conteudoArquivo = new ArrayList<String>();
 
-		fileContent = readFile(path);
+		conteudoArquivo = lerArquivo(path);
+		
+		String primeiraLinhaArquivo = conteudoArquivo.get(0);
 
-		int vertexAmount = Integer.parseInt(fileContent.get(0));
-		LinkedHashMap<String, Integer> graphInfo = getGraphInfo(fileContent);
+		int numeroDeVertices = Integer.parseInt(primeiraLinhaArquivo);
+		LinkedHashMap<String, Double> infosGrafo = criarInfosGrafo(conteudoArquivo);
 
-		switch (representationType) {
+		switch (tipoRepresentacao) {
 		case MATRIZ_DE_ADJACENCIA: {
-			createAdjacencyMatrix(vertexAmount, graphInfo);
+			 this.grafo = new MatrizAdjacencia(numeroDeVertices, infosGrafo);
+			 System.out.println(this.grafo.toString());
+			 return null;
 		}
 		case MATRIZ_DE_INCIDENCIA: {
-
+			return null;
 		}
 		case LISTA_DE_ADJACENCIA: {
-
+			return null;
 		}
 		default:
-			throw new IllegalArgumentException("Unexpected value: " + representationType);
+			return null;
 		}
 	}
 
@@ -121,14 +126,14 @@ public class AlgoritmosEmGrafos implements grafos.AlgoritmosEmGrafos {
 		return null;
 	}
 
-	protected static ArrayList<String> readFile(String filePath) {
-		ArrayList<String> fileContent = new ArrayList<String>();
-		FileManager fileManager = new FileManager();
+	protected static ArrayList<String> lerArquivo(String caminhoArquivo) {
+		ArrayList<String> conteudoArquivo = new ArrayList<String>();
+		FileManager gerenciadorArquivos = new FileManager();
 
 		try {
-			fileContent = fileManager.stringReader(filePath);
+			conteudoArquivo = gerenciadorArquivos.stringReader(caminhoArquivo);
 
-			return fileContent;
+			return conteudoArquivo;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.out.println("Houve um erro ao ler o arquivo, por favor tente novamete.");
@@ -136,36 +141,24 @@ public class AlgoritmosEmGrafos implements grafos.AlgoritmosEmGrafos {
 		}
 	}
 
-	protected static LinkedHashMap<String, Integer> getGraphInfo(ArrayList<String> fileContent) {
-		LinkedHashMap<String, Integer> graphInfo = new LinkedHashMap<String, Integer>();
+	protected static LinkedHashMap<String, Double> criarInfosGrafo(ArrayList<String> conteudoArquivo) {
+		LinkedHashMap<String, Double> infosGrafo = new LinkedHashMap<String, Double>();
+		
+		for (int i = 1; i < conteudoArquivo.size(); i++) {
 
-		for (int i = 1; i < fileContent.size(); i++) {
-			String lineContent = fileContent.get(i);
-			String[] vertexInfo = lineContent.split(" ");
+			String conteudoLinha = conteudoArquivo.get(i);
+			String[] infosVertice = conteudoLinha.split(" ");
 
-			for (int j = 1; j < vertexInfo.length; j++) {
-				String[] vertexInfoSplited = vertexInfo[j].split("-");
-				int destiny = Integer.parseInt(vertexInfoSplited[0]);
-				int weight = Integer.parseInt(vertexInfoSplited[1].replace(";", ""));
+			for (int j = 1; j < infosVertice.length; j++) {
 
-				graphInfo.put("Vertice[" + (i - 1) + "] Aresta[" + j + "] Destino", destiny);
-				graphInfo.put("Vertice[" + (i - 1) + "] Aresta[" + j + "] Peso", weight);
+				String[] infosVerticeDivido = infosVertice[j].split("-");
+				double destino = Integer.parseInt(infosVerticeDivido[0]);
+				double peso = Integer.parseInt(infosVerticeDivido[1].replace(";", ""));
+
+				infosGrafo.put("Vertice[" + (i - 1) + "] Aresta[" + j + "] Destino", destino);
+				infosGrafo.put("Vertice[" + (i - 1) + "] Aresta[" + j + "] Peso", peso);
 			}
 		}
-
-		return graphInfo;
+		return infosGrafo;
 	}
-
-	protected static int[][] createAdjacencyMatrix(int vertexAmount, LinkedHashMap<String, Integer> graphInfo) {
-		int[][] graphMatrix = new int[vertexAmount][vertexAmount];
-		System.out.println(graphInfo.toString());
-		for (int i = 0; i < vertexAmount; i++) {
-			for (int j = 0; j < vertexAmount; j++) {
-
-			}
-		}
-
-		return graphMatrix;
-	}
-
 }

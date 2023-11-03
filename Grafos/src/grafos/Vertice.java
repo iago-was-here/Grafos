@@ -23,5 +23,11 @@ public class Vertice {
     public void setarVertice(int vertice) {
         this.vertice = vertice;
     }
+
+	@Override
+	public String toString() {
+		return "Vertice [" + vertice + "]";
+	}
+    
     
 }

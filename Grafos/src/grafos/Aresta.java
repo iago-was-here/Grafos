@@ -50,5 +50,11 @@ public class Aresta {
     public void setarPeso(double peso) {
         this.peso = peso;
     }
+
+	@Override
+	public String toString() {
+		return "Aresta [origem= " + origem + ", destino= " + destino + ", peso= " + peso + "]";
+	}
+    
     
 }
