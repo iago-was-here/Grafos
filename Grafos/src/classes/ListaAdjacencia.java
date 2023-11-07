@@ -1,84 +1,152 @@
 package classes;
 
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import grafos.Aresta;
-import grafos.Grafo;
 import grafos.Vertice;
 
-public class ListaAdjacencia implements Grafo {
+public class ListaAdjacencia implements grafos.Grafo {
 
-	private List<Aresta> ListaAdjacencia;
+	private ArrayList<Aresta>[] listaAdjacencia;
 
-	public ListaAdjacencia() {
+	@SuppressWarnings("unchecked")
+	public void iniciarLista(int numeroDeVertices) {
+		this.listaAdjacencia = new ArrayList[numeroDeVertices];
+		for (int i = 0; i < numeroDeVertices; i++) {
+			this.listaAdjacencia[i] = new ArrayList<Aresta>();
+		}
+	}
 
+	public ListaAdjacencia(int numeroDeVertices, LinkedHashMap<String, Double> infosGrafo) {
+
+		iniciarLista(numeroDeVertices);
+
+		for (int i = 0; i < numeroDeVertices; i++) {
+			Vertice origem = new Vertice(i);
+			for (int j = 0; j < numeroDeVertices; j++) {
+				Boolean existeAresta = infosGrafo.containsKey("Vertice[" + i + "] Aresta[" + j + "] Destino");
+
+				if (existeAresta) {
+					double infoDestino = infosGrafo.get("Vertice[" + i + "] Aresta[" + j + "] Destino");
+					double infoPeso = infosGrafo.get("Vertice[" + i + "] Aresta[" + j + "] Peso");
+					Vertice destino = new Vertice((int) infoDestino);
+
+					this.adicionarAresta(origem, destino, infoPeso);
+				}
+			}
+		}
 	}
 
 	@Override
-	public void adicionarAresta(Vertice origem, Vertice destino) throws Exception {
+	public void adicionarAresta(Vertice origem, Vertice destino) {
 		Aresta aresta = new Aresta(origem, destino);
-		this.ListaAdjacencia.add(aresta);
+		this.listaAdjacencia[origem.id()].add(aresta);
 	}
 
 	@Override
-	public void adicionarAresta(Vertice origem, Vertice destino, double peso) throws Exception {
+	public void adicionarAresta(Vertice origem, Vertice destino, double peso) {
 		Aresta aresta = new Aresta(origem, destino, peso);
-		this.ListaAdjacencia.add(aresta);
+		this.listaAdjacencia[origem.id()].add(aresta);
 	}
 
 	@Override
 	public boolean existeAresta(Vertice origem, Vertice destino) {
-		Aresta arestaAux = new Aresta(origem, destino);
-		Boolean existeAresta = this.ListaAdjacencia.contains(arestaAux);
+		ArrayList<Aresta> arestas = this.listaAdjacencia[origem.id()];
 
-		if (existeAresta) {
-			return true;
+		for (Aresta aresta : arestas) {
+			if (aresta.origem().id() == origem.id() && aresta.destino().id() == destino.id()) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public int grauDoVertice(Vertice vertice) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int grauDoVertice = 0;
+		int numeroDeVertices = this.numeroDeVertices();
+
+		for (int i = 0; i < numeroDeVertices; i++) {
+			int qntArestas = this.listaAdjacencia[i].size();
+			for (int j = 0; j < qntArestas; j++) {
+				Aresta aresta = this.listaAdjacencia[i].get(j);
+				if (aresta.destino().id() == vertice.id()) {
+					grauDoVertice++;
+				}
+
+				if (aresta.origem().id() == vertice.id()) {
+					grauDoVertice++;
+				}
+			}
+		}
+		return grauDoVertice;
 	}
 
 	@Override
 	public int numeroDeVertices() {
-		return this.ListaAdjacencia.size();
+		return this.listaAdjacencia.length;
 	}
 
 	@Override
 	public int numeroDeArestas() {
 		int numeroArestas = 0;
-		int tamanhoLista = this.ListaAdjacencia.size();
+		int tamanhoLista = this.listaAdjacencia.length;
+
+		for (int i = 0; i < tamanhoLista; i++) {
+			numeroArestas = this.listaAdjacencia[i].size() + numeroArestas;
+		}
 
 		return numeroArestas;
 	}
 
 	@Override
 	public ArrayList<Vertice> adjacentesDe(Vertice vertice) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Vertice> adjacentes = new ArrayList<Vertice>();
+		int linha = vertice.id();
+		int numeroDeVertices = this.numeroDeVertices();
+
+		for (int i = linha; i < numeroDeVertices; i++) {
+			Vertice origem = new Vertice(i);
+			for (int j = 0; j < numeroDeVertices; j++) {
+				Vertice destino = new Vertice(j);
+
+				if (this.existeAresta(origem, destino)) {
+					Vertice adjacente = new Vertice(j);
+					adjacentes.add(adjacente);
+				}
+			}
+		}
+
+		return adjacentes;
 	}
 
 	@Override
 	public void setarPeso(Vertice origem, Vertice destino, double peso) throws Exception {
-		// TODO Auto-generated method stub
-
+		Aresta arestaAux = new Aresta(origem, destino);
+		this.listaAdjacencia[origem.id()].forEach((aresta) -> {
+			if (aresta.equals(arestaAux)) {
+				aresta.setarPeso(peso);
+			}
+		});
 	}
 
 	@Override
 	public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Aresta> arestasEntre = new ArrayList<Aresta>();
+		arestasEntre = this.listaAdjacencia[origem.id()];
+		return arestasEntre;
 	}
 
 	@Override
 	public ArrayList<Vertice> vertices() {
-		// TODO Auto-generated method stub
+
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		return "ListaAdjacencia [" + Arrays.deepToString(listaAdjacencia) + "]";
 	}
 
 }

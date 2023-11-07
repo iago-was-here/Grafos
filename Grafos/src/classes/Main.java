@@ -12,8 +12,8 @@ public class Main {
 
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.println("Insira o caminho do arquivo de testes que deseja ler: ");
-		caminhoArquivo = scanner.nextLine();
+		//System.out.println("Insira o caminho do arquivo de testes que deseja ler: ");
+		caminhoArquivo = "C:\\Users\\iagoa\\OneDrive\\Área de Trabalho\\Projetos\\IF\\PAA\\Grafos\\Teste.txt";
 
 		System.out.println("Insira o numero referente a estrutura desejada: ");
 		System.out.println("1: " + TipoDeRepresentacao.LISTA_DE_ADJACENCIA);

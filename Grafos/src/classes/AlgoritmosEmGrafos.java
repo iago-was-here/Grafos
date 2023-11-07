@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -19,22 +20,33 @@ public class AlgoritmosEmGrafos implements grafos.AlgoritmosEmGrafos {
 		ArrayList<String> conteudoArquivo = new ArrayList<String>();
 
 		conteudoArquivo = lerArquivo(path);
-		
+
 		String primeiraLinhaArquivo = conteudoArquivo.get(0);
 
 		int numeroDeVertices = Integer.parseInt(primeiraLinhaArquivo);
 		LinkedHashMap<String, Double> infosGrafo = criarInfosGrafo(conteudoArquivo);
 
+		Vertice origem = new Vertice(3);
+		Vertice destino = new Vertice(3);
+
 		switch (tipoRepresentacao) {
 		case MATRIZ_DE_ADJACENCIA: {
-			 this.grafo = new MatrizAdjacencia(numeroDeVertices, infosGrafo);
-			 System.out.println(this.grafo.toString());
-			 return null;
+			this.grafo = new MatrizAdjacencia(numeroDeVertices, infosGrafo);
+			return null;
 		}
 		case MATRIZ_DE_INCIDENCIA: {
+			this.grafo = new MatrizIncidencia(numeroDeVertices, infosGrafo);
+			System.out.println(this.grafo.toString());
+			try {
+				System.out.println("Grau do vertice: " + this.grafo.grauDoVertice(origem));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
 			return null;
 		}
 		case LISTA_DE_ADJACENCIA: {
+			this.grafo = new ListaAdjacencia(numeroDeVertices, infosGrafo);
 			return null;
 		}
 		default:
@@ -143,7 +155,8 @@ public class AlgoritmosEmGrafos implements grafos.AlgoritmosEmGrafos {
 
 	protected static LinkedHashMap<String, Double> criarInfosGrafo(ArrayList<String> conteudoArquivo) {
 		LinkedHashMap<String, Double> infosGrafo = new LinkedHashMap<String, Double>();
-		
+		double qntArestas = 0;
+
 		for (int i = 1; i < conteudoArquivo.size(); i++) {
 
 			String conteudoLinha = conteudoArquivo.get(i);
@@ -157,8 +170,11 @@ public class AlgoritmosEmGrafos implements grafos.AlgoritmosEmGrafos {
 
 				infosGrafo.put("Vertice[" + (i - 1) + "] Aresta[" + j + "] Destino", destino);
 				infosGrafo.put("Vertice[" + (i - 1) + "] Aresta[" + j + "] Peso", peso);
+				qntArestas++;
 			}
 		}
+		
+		infosGrafo.put("Quantidade Arestas", qntArestas);
 		return infosGrafo;
 	}
 }
