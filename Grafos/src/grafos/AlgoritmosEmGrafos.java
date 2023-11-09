@@ -27,14 +27,14 @@ public interface AlgoritmosEmGrafos {
      * @param g Grafo
      * @return as arestas da árvore resultante
      */
-    public Collection<Aresta> buscaEmLargura (Grafo g);
+    public Collection<Aresta> buscaEmLargura (Vertice verticeInicial);
     
     /**
      * Realiza a busca em profundidade no grafo
      * @param g Grafo
      * @return as arestas da floresta resultante
      */
-    public Collection<Aresta> buscaEmProfundidade (Grafo g);
+    public Collection<Aresta> buscaEmProfundidade (Vertice verticeInicial);
     
     /**
      * Função que indica o menor caminho entre dois pontos. Nesta função, é

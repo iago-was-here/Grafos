@@ -13,29 +13,29 @@ public class MatrizIncidencia implements grafos.Grafo {
 
 	public MatrizIncidencia(int numeroDeVertices, LinkedHashMap<String, Double> infosGrafo) {
 		double qntArestas = infosGrafo.get("Quantidade Arestas");
-
+		
 		this.matrizIncidencia = new Aresta[numeroDeVertices][(int) qntArestas];
 
 		for (int i = 0; i < numeroDeVertices; i++) {
 			Vertice origem = new Vertice(i);
 			for (int j = 0; j < (int) qntArestas; j++) {
-				Boolean existeArestaOrigem = infosGrafo.containsKey("Vertice[" + i + "] Aresta[" + j + "] Destino");
-				Boolean existeArestaDestino = infosGrafo.containsKey("Vertice[" + j + "] Aresta[" + i + "] Destino");
+				Boolean existeArestaSaida = infosGrafo.containsKey("Vertice[" + i + "] Aresta[" + j + "] Destino");
+				Boolean existeArestaEntrada = infosGrafo.containsKey("Vertice[" + j + "] Aresta[" + i + "] Destino");
 
-				if (existeArestaOrigem) {
+				if (existeArestaSaida) {
 					double infoDestino = infosGrafo.get("Vertice[" + i + "] Aresta[" + j + "] Destino");
 					double infoPeso = infosGrafo.get("Vertice[" + i + "] Aresta[" + j + "] Peso");
 					Vertice destino = new Vertice((int) infoDestino);
-
 					this.adicionarAresta(origem, destino, infoPeso);
 				}
 
-				if (existeArestaDestino) {
+				if (existeArestaEntrada) {
+
 					Vertice origemIncidente = new Vertice(j);
 					double infoDestino = infosGrafo.get("Vertice[" + j + "] Aresta[" + i + "] Destino");
 					double infoPeso = infosGrafo.get("Vertice[" + j + "] Aresta[" + i + "] Peso");
 					Vertice destino = new Vertice((int) infoDestino);
-
+					
 					this.adicionarArestaIncidente(origemIncidente, destino, infoPeso);
 				}
 			}
@@ -105,7 +105,7 @@ public class MatrizIncidencia implements grafos.Grafo {
 	}
 
 	@Override
-	public ArrayList<Vertice> adjacentesDe(Vertice vertice) throws Exception {
+	public ArrayList<Vertice> adjacentesDe(Vertice vertice) {
 		ArrayList<Vertice> adjacentes = new ArrayList<Vertice>();
 		int linhaMatriz = vertice.id();
 		int numeroDeVertices = this.numeroDeVertices();
@@ -131,7 +131,7 @@ public class MatrizIncidencia implements grafos.Grafo {
 	}
 
 	@Override
-	public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino) throws Exception {
+	public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino) {
 		return null;
 	}
 

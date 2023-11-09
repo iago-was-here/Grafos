@@ -6,7 +6,6 @@
 package grafos;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  *
@@ -71,7 +70,7 @@ public interface Grafo {
      * @throws java.lang.Exception Uma exceção é lançada quando o vértice indicado
      * não existe.
      */
-    public ArrayList<Vertice> adjacentesDe(Vertice vertice) throws Exception;
+    public ArrayList<Vertice> adjacentesDe(Vertice vertice);
     
     /**
      * Seta o peso da aresta entre os vértices origem e destino.
@@ -90,7 +89,7 @@ public interface Grafo {
      * @return Uma coleção com as arestas existentes entre origem e destino.
      * @throws java.lang.Exception Se não existe origem e/ou destino.
      */
-    public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino) throws Exception;
+    public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino);
     
     /**
      * Retorna o conjunto de vértices do grafo.

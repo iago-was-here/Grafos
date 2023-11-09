@@ -1,5 +1,6 @@
 package classes;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -101,22 +102,13 @@ public class ListaAdjacencia implements grafos.Grafo {
 	}
 
 	@Override
-	public ArrayList<Vertice> adjacentesDe(Vertice vertice) throws Exception {
+	public ArrayList<Vertice> adjacentesDe(Vertice vertice) {
 		ArrayList<Vertice> adjacentes = new ArrayList<Vertice>();
 		int linha = vertice.id();
-		int numeroDeVertices = this.numeroDeVertices();
 
-		for (int i = linha; i < numeroDeVertices; i++) {
-			Vertice origem = new Vertice(i);
-			for (int j = 0; j < numeroDeVertices; j++) {
-				Vertice destino = new Vertice(j);
-
-				if (this.existeAresta(origem, destino)) {
-					Vertice adjacente = new Vertice(j);
-					adjacentes.add(adjacente);
-				}
-			}
-		}
+		this.listaAdjacencia[linha].forEach((aresta) -> {
+			adjacentes.add(aresta.destino());
+		});
 
 		return adjacentes;
 	}
@@ -132,16 +124,29 @@ public class ListaAdjacencia implements grafos.Grafo {
 	}
 
 	@Override
-	public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino) throws Exception {
+	public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino) {
 		ArrayList<Aresta> arestasEntre = new ArrayList<Aresta>();
-		arestasEntre = this.listaAdjacencia[origem.id()];
+		this.listaAdjacencia[origem.id()].forEach((aresta)->{
+			if (aresta.destino().equals(destino)) {
+	            arestasEntre.add(aresta);
+	        }
+		});
 		return arestasEntre;
 	}
 
 	@Override
 	public ArrayList<Vertice> vertices() {
+		ArrayList<Vertice> vertices = new ArrayList<Vertice>();
 
-		return null;
+		for (int i = 0; i < this.numeroDeVertices(); i++) {
+			this.listaAdjacencia[i].forEach((aresta) -> {
+				if (!vertices.contains(aresta.origem())) {
+					vertices.add(aresta.origem());
+				}
+			});
+		}
+
+		return vertices;
 	}
 
 	@Override

@@ -88,7 +88,7 @@ public class MatrizAdjacencia implements grafos.Grafo {
 			for (int j = 0; j < numeroDeVertices; j++) {
 				Vertice destino = new Vertice(j);
 
-				if ( this.existeAresta(origem, destino)) {
+				if (this.existeAresta(origem, destino)) {
 					numeroArestas++;
 				}
 			}
@@ -97,20 +97,14 @@ public class MatrizAdjacencia implements grafos.Grafo {
 	}
 
 	@Override
-	public ArrayList<Vertice> adjacentesDe(Vertice vertice) throws Exception {
+	public ArrayList<Vertice> adjacentesDe(Vertice vertice) {
 		ArrayList<Vertice> adjacentes = new ArrayList<Vertice>();
 		int linhaMatriz = vertice.id();
 		int numeroDeVertices = this.numeroDeVertices();
 
-		for (int i = linhaMatriz; i < numeroDeVertices; i++) {
-			Vertice origem = new Vertice(i);
-			for (int j = 0; j < numeroDeVertices; j++) {
-				Vertice destino = new Vertice(j);
-				
-				if (this.existeAresta(origem, destino)) {
-					Vertice adjacente = new Vertice(j);
-					adjacentes.add(adjacente);
-				}
+		for (int i = 0; i < numeroDeVertices; i++) {
+			if (this.matrizAdjacencia[linhaMatriz][i] != null) {
+				adjacentes.add(this.matrizAdjacencia[linhaMatriz][i].destino());
 			}
 		}
 
@@ -123,9 +117,14 @@ public class MatrizAdjacencia implements grafos.Grafo {
 	}
 
 	@Override
-	public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino) throws Exception {
+	public ArrayList<Aresta> arestasEntre(Vertice origem, Vertice destino) {
+		ArrayList<Aresta> arestas = new ArrayList<>();
 
-		return null;
+		if (this.matrizAdjacencia[origem.id()][destino.id()] != null) {
+			arestas.add(this.matrizAdjacencia[origem.id()][destino.id()]);
+		}
+
+		return arestas;
 	}
 
 	@Override
@@ -134,8 +133,11 @@ public class MatrizAdjacencia implements grafos.Grafo {
 		int numeroDeVertices = this.numeroDeVertices();
 
 		for (int i = 0; i < numeroDeVertices; i++) {
-			Vertice vertice = new Vertice(i);
-			vertices.add(vertice);
+			for (int j = 0; j < numeroDeVertices; j++) {
+				if (this.matrizAdjacencia[i][j] != null) {
+					vertices.add(this.matrizAdjacencia[i][j].origem());
+				}
+			}
 		}
 
 		return vertices;
