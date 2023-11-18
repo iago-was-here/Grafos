@@ -103,7 +103,8 @@ public class MatrizAdjacencia implements grafos.Grafo {
 		int numeroDeVertices = this.numeroDeVertices();
 
 		for (int i = 0; i < numeroDeVertices; i++) {
-			if (this.matrizAdjacencia[linhaMatriz][i] != null) {
+			if (this.matrizAdjacencia[linhaMatriz][i] != null
+					&& !adjacentes.contains(this.matrizAdjacencia[linhaMatriz][i].destino())) {
 				adjacentes.add(this.matrizAdjacencia[linhaMatriz][i].destino());
 			}
 		}
@@ -134,7 +135,7 @@ public class MatrizAdjacencia implements grafos.Grafo {
 
 		for (int i = 0; i < numeroDeVertices; i++) {
 			for (int j = 0; j < numeroDeVertices; j++) {
-				if (this.matrizAdjacencia[i][j] != null) {
+				if (this.matrizAdjacencia[i][j] != null && !vertices.contains(this.matrizAdjacencia[i][j].origem())) {
 					vertices.add(this.matrizAdjacencia[i][j].origem());
 				}
 			}

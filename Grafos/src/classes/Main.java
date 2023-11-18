@@ -13,7 +13,7 @@ public class Main {
 
 		Scanner scanner = new Scanner(System.in);
 
-		 System.out.println("Insira o caminho do arquivo de testes que deseja ler: ");
+		System.out.println("Insira o caminho do arquivo de testes que deseja ler: ");
 		caminhoArquivo = scanner.nextLine();
 
 		System.out.println("Insira o numero referente a estrutura desejada: ");
@@ -98,8 +98,8 @@ public class Main {
 				int origem = scanner.nextInt();
 				System.out.println("Insira um vertice de destino: ");
 				int destino = scanner.nextInt();
-				System.out.println("Fluxo Máximo: "
-						+ algoritmo.fluxoMaximo(grafo, grafo.vertices().get(origem), grafo.vertices().get(destino)));
+				//System.out.println("Fluxo Máximo: "
+						//+ algoritmo.fluxoMaximo(grafo, grafo.vertices().get(origem), grafo.vertices().get(destino)));
 				break;
 			}
 			default:
