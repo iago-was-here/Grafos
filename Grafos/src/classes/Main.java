@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import grafos.Grafo;
 import grafos.TipoDeRepresentacao;
+import tipoSolucoes.TentativaeErro;
 
 public class Main {
 	public static void main(String[] args) {
@@ -44,13 +45,21 @@ public class Main {
 			System.out.println("Erro: " + e.getMessage());
 			System.out.println("Houve um erro ao carregar o grafo, por favor tente novamente");
 		}
-
-		escolheMetodo(algoritmos);
+		
+		escolheMetodoNP(algoritmos);
+		//escolheMetodoGrafos(algoritmos);
 
 		scanner.close();
 	}
 
-	private static void escolheMetodo(AlgoritmosEmGrafos algoritmo) {
+	private static void escolheMetodoNP(AlgoritmosEmGrafos algoritmo) {
+		Scanner scanner = new Scanner(System.in);
+		int metodo;
+		Grafo grafo = algoritmo.getGrafo();
+		
+		TentativaeErro teste = new TentativaeErro(1, grafo); 
+	}
+	private static void escolheMetodoGrafos(AlgoritmosEmGrafos algoritmo) {
 		Scanner scanner = new Scanner(System.in);
 		int metodo;
 		Grafo grafo = algoritmo.getGrafo();
