@@ -45,20 +45,25 @@ public class Main {
 			System.out.println("Erro: " + e.getMessage());
 			System.out.println("Houve um erro ao carregar o grafo, por favor tente novamente");
 		}
-		
+
 		escolheMetodoNP(algoritmos);
-		//escolheMetodoGrafos(algoritmos);
+		// escolheMetodoGrafos(algoritmos);
 
 		scanner.close();
 	}
 
 	private static void escolheMetodoNP(AlgoritmosEmGrafos algoritmo) {
+		@SuppressWarnings({ "resource", "unused" })
 		Scanner scanner = new Scanner(System.in);
+		@SuppressWarnings("unused")
 		int metodo;
 		Grafo grafo = algoritmo.getGrafo();
-		
-		TentativaeErro teste = new TentativaeErro(1, grafo); 
+
+		@SuppressWarnings("unused")
+		TentativaeErro teste = new TentativaeErro(1, grafo);
 	}
+
+	@SuppressWarnings("unused")
 	private static void escolheMetodoGrafos(AlgoritmosEmGrafos algoritmo) {
 		Scanner scanner = new Scanner(System.in);
 		int metodo;
@@ -107,8 +112,9 @@ public class Main {
 				int origem = scanner.nextInt();
 				System.out.println("Insira um vertice de destino: ");
 				int destino = scanner.nextInt();
-				//System.out.println("Fluxo Máximo: "
-						//+ algoritmo.fluxoMaximo(grafo, grafo.vertices().get(origem), grafo.vertices().get(destino)));
+				// System.out.println("Fluxo Máximo: "
+				// + algoritmo.fluxoMaximo(grafo, grafo.vertices().get(origem),
+				// grafo.vertices().get(destino)));
 				break;
 			}
 			default:

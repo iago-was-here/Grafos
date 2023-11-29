@@ -12,6 +12,8 @@ public class CicloHamiltoniano {
 
 	public CicloHamiltoniano(Grafo grafo) {
 		this.setGrafo(grafo);
+		this.melhorCaminho = new ArrayList<Aresta>();
+		this.custoCaminho = 0.0;
 	}
 
 	public Double getCustoCaminho() {
@@ -42,29 +44,38 @@ public class CicloHamiltoniano {
 		ArrayList<Vertice> visitados = new ArrayList<Vertice>();
 		for (Vertice vertice : this.grafo.vertices()) {
 			if (!visitados.contains(vertice)) {
+				visitados.add(vertice);
+				this.custoCaminho = 0.0;
 				this.melhorCaminho = backtracking(this.melhorCaminho, visitados, vertice);
+				this.calculaCustoCaminho(melhorCaminho);
 			}
 		}
 
-		this.calculaCustoCaminho(melhorCaminho);
-
 		System.out.println(this.custoCaminho);
-		for (Aresta aresta : melhorCaminho) {
-			System.out.print(aresta.origem() + " - ");
-		}
+		System.out.println(melhorCaminho.toString());
 
 	}
 
 	private ArrayList<Aresta> backtracking(ArrayList<Aresta> melhorCaminho, ArrayList<Vertice> visitados,
 			Vertice vertice) {
-		for (Vertice adjacente : this.grafo.adjacentesDe(vertice)) {
+
+		if (melhorCaminho.size() == this.grafo.numeroDeVertices() - 1) {
+			Vertice origemCaminho = melhorCaminho.get(0).origem();
+			if (this.grafo.existeAresta(vertice, origemCaminho)) {
+				melhorCaminho.addAll(this.grafo.arestasEntre(vertice, origemCaminho));
+			}
+			return melhorCaminho;
+		}
+
+		ArrayList<Vertice> adjacentes = this.grafo.adjacentesDe(vertice);
+		for (Vertice adjacente : adjacentes) {
 			if (!visitados.contains(adjacente)) {
 				visitados.add(adjacente);
 				if (this.grafo.existeAresta(vertice, adjacente)) {
 					melhorCaminho.addAll(this.grafo.arestasEntre(vertice, adjacente));
+					backtracking(melhorCaminho, visitados, adjacente);
 				}
 
-				backtracking(melhorCaminho, visitados, adjacente);
 			}
 		}
 		return melhorCaminho;
