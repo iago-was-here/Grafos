@@ -1,9 +1,12 @@
 package classes;
 
+import java.util.List;
 import java.util.Scanner;
 
 import grafos.Grafo;
 import grafos.TipoDeRepresentacao;
+import grafos.Vertice;
+import tipoSolucoes.AlgoritmoGeneticoTSP;
 import tipoSolucoes.TentativaeErro;
 
 public class Main {
@@ -58,9 +61,36 @@ public class Main {
 		@SuppressWarnings("unused")
 		int metodo;
 		Grafo grafo = algoritmo.getGrafo();
+		System.out.println("Entre com o numero equivalente ao tipo de solução que deseja usar: ");
+		System.out.println("1: Tentativa e erro");
+		System.out.println("2: Algoritmo genético");
+		metodo = scanner.nextInt();
 
-		@SuppressWarnings("unused")
-		TentativaeErro teste = new TentativaeErro(1, grafo);
+		switch (metodo) {
+		case 1: {
+			@SuppressWarnings("unused")
+			TentativaeErro tentativaErro = new TentativaeErro(1, grafo);
+			break;
+		}
+		case 2: {
+			int tamanhoPopulacao = 50;
+			double taxaCrossover = 0.8;
+			double taxaMutacao = 0.02;
+			int numeroGeracoes = 1000;
+
+			AlgoritmoGeneticoTSP ag = new AlgoritmoGeneticoTSP(algoritmo.getGrafo(), tamanhoPopulacao, taxaCrossover,
+					taxaMutacao, numeroGeracoes);
+			List<Vertice> melhorCaminho = ag.resolverTSP();
+
+			System.out.println("Custo do Melhor Caminho: " + ag.calcularCusto(melhorCaminho));
+			System.out.println("Melhor Caminho: " + melhorCaminho);
+
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + metodo);
+		}
+
 	}
 
 	@SuppressWarnings("unused")

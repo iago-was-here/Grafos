@@ -144,6 +144,14 @@ public class MatrizAdjacencia implements grafos.Grafo {
 		return vertices;
 	}
 
+	public Double getPeso(Vertice origem, Vertice destino) {
+		double peso = 0;
+		if (this.matrizAdjacencia[origem.id()][destino.id()] != null) {
+			peso = this.matrizAdjacencia[origem.id()][destino.id()].peso();
+		}
+		return peso;
+	}
+
 	@Override
 	public String toString() {
 		return "Matriz de Adjacencia =" + Arrays.deepToString(this.matrizAdjacencia) + "]";
